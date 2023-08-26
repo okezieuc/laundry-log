@@ -95,7 +95,9 @@ export default function MachineStatus() {
       }
     };
 
-    getMachineStatus();
+    if (router.query.machine_id) {
+      getMachineStatus();
+    }
   }, [router.query.machine_id, forceDataRefresh]);
 
   return (
