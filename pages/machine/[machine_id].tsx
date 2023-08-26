@@ -7,7 +7,7 @@ type MachineStatus = {
   type: string;
   dorm: string;
   floor: number;
-  machine_number: number;
+  number: number;
   owner_name?: string;
   owner_room_number?: number;
   salt?: string;
@@ -108,7 +108,7 @@ export default function MachineStatus() {
               <>
                 <div>Owner: {machineStatus.owner_name}</div>
                 <div>
-                  Owner's Room Number: {machineStatus.owner_room_number}
+                  Owner&apos;s Room Number: {machineStatus.owner_room_number}
                 </div>
                 <button
                   onClick={resetOwner}
@@ -129,7 +129,9 @@ export default function MachineStatus() {
                   type="number"
                   className="form-input"
                   placeholder="room number"
-                  onChange={(e) => setOwnerRoomNumberValue(e.target.value)}
+                  onChange={(e) =>
+                    setOwnerRoomNumberValue(parseInt(e.target.value))
+                  }
                 />
                 <button
                   className="bg-blue-600 text-white px-8 py-9 hover:bg-blue-700 transition-all"
