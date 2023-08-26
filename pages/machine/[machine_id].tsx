@@ -147,7 +147,7 @@ export default function MachineStatus() {
           </p>
         </div>
       ) : (
-        <>ummm.. something went wrong. contact okezie</>
+        <>ummm.. something went wrong. try refreshing two or three times. if it still doesn't work, contact okezie</>
       )}
     </div>
   );
