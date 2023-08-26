@@ -21,6 +21,8 @@ export default function MachineStatus() {
   // we use forceDataRefresh to force the page to refresh when a user rests
   // the page or uploads their data to the page
   const [forceDataRefresh, setForceDataRefresh] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSomethingWrong, setIsSomethingWrong] = useState<boolean>(false);
 
   const [ownerNameValue, setOwnerNameValue] = useState<string | null>(null);
   const [ownerRoomNumberValue, setOwnerRoomNumberValue] = useState<
@@ -86,8 +88,10 @@ export default function MachineStatus() {
 
         const data = await response.json();
         setMachineStatus(data);
+        setIsLoading(false);
       } catch (error) {
         setMachineStatus(null);
+        setIsSomethingWrong(true);
       }
     };
 
@@ -96,67 +100,78 @@ export default function MachineStatus() {
 
   return (
     <div className="p-12">
-      {machineStatus ? (
-        <div>
-          <div className="text-3xl font-bold mb-12">new livingstone<span className="text-blue-500">.</span></div>
-          <div className="text-2xl">floor {machineStatus.floor}</div>
-          <div className="text-2xl mb-12">
-            {machineStatus.type} {machineStatus.number}
-          </div>
-          <div>
-            {machineStatus.owner_name ? (
-              <>
-                <div className="mb-2">owner: {machineStatus.owner_name}</div>
-                <div className="mb-2">
-                  owner&apos;s room number: {machineStatus.owner_room_number}
-                </div>
-                <button
-                  onClick={resetOwner}
-                  className="bg-red-600 text-white px-4 py-2 w-64 rounded-md hover:bg-red-700 transition-all"
-                >
-                  clear owner data
-                </button>
-              </>
-            ) : (
-              <>
-                <div>
-                  <input
-                    type="text"
-                    className="form-input rounded-md mb-4 w-64"
-                    placeholder="your name"
-                    onChange={(e) => setOwnerNameValue(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <input
-                    type="number"
-                    className="form-input rounded-md mb-4 w-64"
-                    placeholder="room number"
-                    onChange={(e) =>
-                      setOwnerRoomNumberValue(parseInt(e.target.value))
-                    }
-                  />
-                </div>
-                <div>
-                  <button
-                    className="bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition-all w-64 rounded-md"
-                    onClick={setOwner}
-                  >
-                    submit info
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-          <p className="text-sm my-12">
-            this thing is ugly. but it works. lol. - okezie
-          </p>
-        </div>
+      {!isLoading ? (
+        !isSomethingWrong && machineStatus != null ? (
+          <>
+            <div>
+              <div className="text-3xl font-bold mb-12">
+                new livingstone<span className="text-blue-500">.</span>
+              </div>
+              <div className="text-2xl">floor {machineStatus.floor}</div>
+              <div className="text-2xl mb-12">
+                {machineStatus.type} {machineStatus.number}
+              </div>
+              <div>
+                {machineStatus.owner_name ? (
+                  <>
+                    <div className="mb-2">
+                      owner: {machineStatus.owner_name}
+                    </div>
+                    <div className="mb-2">
+                      owner&apos;s room number:{" "}
+                      {machineStatus.owner_room_number}
+                    </div>
+                    <button
+                      onClick={resetOwner}
+                      className="bg-red-600 text-white px-4 py-2 w-64 rounded-md hover:bg-red-700 transition-all"
+                    >
+                      clear owner data
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <input
+                        type="text"
+                        className="form-input rounded-md mb-4 w-64"
+                        placeholder="your name"
+                        onChange={(e) => setOwnerNameValue(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="number"
+                        className="form-input rounded-md mb-4 w-64"
+                        placeholder="room number"
+                        onChange={(e) =>
+                          setOwnerRoomNumberValue(parseInt(e.target.value))
+                        }
+                      />
+                    </div>
+                    <div>
+                      <button
+                        className="bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition-all w-64 rounded-md"
+                        onClick={setOwner}
+                      >
+                        submit info
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+              <p className="text-sm my-12">
+                this thing is ugly. but it works. lol. - okezie
+              </p>
+            </div>
+          </>
+        ) : (
+          <>
+            ummm.. something went wrong. try refreshing two or three times. if
+            it still doesn&apos;t work, contact okezie
+          </>
+        )
       ) : (
-        <>
-          ummm.. something went wrong. try refreshing two or three times. if it
-          still doesn&apos;t work, contact okezie
-        </>
+        <>loading...</>
       )}
     </div>
   );
