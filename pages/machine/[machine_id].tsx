@@ -18,6 +18,60 @@ export default function MachineStatus() {
   const [machineStatus, setMachineStatus] = useState<MachineStatus | null>(
     null
   );
+  // we use forceDataRefresh to force the page to refresh when a user rests
+  // the page or uploads their data to the page
+  const [forceDataRefresh, setForceDataRefresh] = useState<number>(0);
+
+  const [ownerNameValue, setOwnerNameValue] = useState<string | null>(null);
+  const [ownerRoomNumberValue, setOwnerRoomNumberValue] = useState<
+    number | null
+  >(null);
+
+  async function setOwner() {
+    try {
+      const response = await fetch(
+        "/api/machine/set?machine_id=" +
+          router.query.machine_id +
+          "&owner_name=" +
+          ownerNameValue +
+          "&owner_room_number=" +
+          ownerRoomNumberValue
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      setOwnerNameValue(null);
+      setOwnerRoomNumberValue(null);
+      
+      alert("successful. thank you for being a good new livite.");
+      setForceDataRefresh(forceDataRefresh + 1);
+    } catch (error) {
+      alert("there was an error");
+    }
+  }
+
+  async function resetOwner() {
+    if (
+      confirm(
+        "are you sure you want to reset this? please do not do this if the clothes in the machine are not yours."
+      )
+    ) {
+      try {
+        const response = await fetch(
+          "/api/machine/reset?machine_id=" + router.query.machine_id
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        setForceDataRefresh(forceDataRefresh + 1);
+      } catch (error) {
+        alert("there was an error");
+      }
+    }
+  }
 
   useEffect(() => {
     const getMachineStatus = async () => {
@@ -38,7 +92,7 @@ export default function MachineStatus() {
     };
 
     getMachineStatus();
-  }, [router.query.machine_id]);
+  }, [router.query.machine_id, forceDataRefresh]);
 
   return (
     <div>
@@ -50,16 +104,45 @@ export default function MachineStatus() {
             Floor {machineStatus.type} {machineStatus.number}
           </div>
           <div>
-            {
-              machineStatus.owner_name ? <>
+            {machineStatus.owner_name ? (
+              <>
                 <div>Owner: {machineStatus.owner_name}</div>
-                <div>Owner's Room Number: {machineStatus.owner_room_number}</div>
-              </> : <></>
-            }
+                <div>
+                  Owner's Room Number: {machineStatus.owner_room_number}
+                </div>
+                <button
+                  onClick={resetOwner}
+                  className="bg-red-600 text-white px-4 py-4"
+                >
+                  Clear Owner Data
+                </button>
+              </>
+            ) : (
+              <>
+                <input
+                  type="text"
+                  className="form-input"
+                  placeholder="Your name"
+                  onChange={(e) => setOwnerNameValue(e.target.value)}
+                />
+                <input
+                  type="number"
+                  className="form-input"
+                  placeholder="Room Number"
+                  onChange={(e) => setOwnerRoomNumberValue(e.target.value)}
+                />
+                <button
+                  className="bg-blue-600 text-white px-8 py-9 hover:bg-blue-700 transition-all"
+                  onClick={setOwner}
+                >
+                  submit info
+                </button>
+              </>
+            )}
           </div>
         </div>
       ) : (
-        "No"
+        <>ummm.. something went wrong. contact okezie</>
       )}
     </div>
   );
