@@ -95,59 +95,68 @@ export default function MachineStatus() {
   }, [router.query.machine_id, forceDataRefresh]);
 
   return (
-    <div>
+    <div className="p-12">
       {machineStatus ? (
         <div>
-          <div className="text-3xl">new livingstone</div>
+          <div className="text-3xl font-bold mb-12">new livingstone<span className="text-blue-500">.</span></div>
           <div className="text-2xl">floor {machineStatus.floor}</div>
-          <div className="text-xl">
+          <div className="text-2xl mb-12">
             {machineStatus.type} {machineStatus.number}
           </div>
           <div>
             {machineStatus.owner_name ? (
               <>
-                <div>Owner: {machineStatus.owner_name}</div>
-                <div>
-                  Owner&apos;s Room Number: {machineStatus.owner_room_number}
+                <div className="mb-2">owner: {machineStatus.owner_name}</div>
+                <div className="mb-2">
+                  owner&apos;s room number: {machineStatus.owner_room_number}
                 </div>
                 <button
                   onClick={resetOwner}
-                  className="bg-red-600 text-white px-4 py-4"
+                  className="bg-red-600 text-white px-4 py-2 w-64 rounded-md hover:bg-red-700 transition-all"
                 >
                   clear owner data
                 </button>
               </>
             ) : (
               <>
-                <input
-                  type="text"
-                  className="form-input"
-                  placeholder="your name"
-                  onChange={(e) => setOwnerNameValue(e.target.value)}
-                />
-                <input
-                  type="number"
-                  className="form-input"
-                  placeholder="room number"
-                  onChange={(e) =>
-                    setOwnerRoomNumberValue(parseInt(e.target.value))
-                  }
-                />
-                <button
-                  className="bg-blue-600 text-white px-8 py-9 hover:bg-blue-700 transition-all"
-                  onClick={setOwner}
-                >
-                  submit info
-                </button>
+                <div>
+                  <input
+                    type="text"
+                    className="form-input rounded-md mb-4 w-64"
+                    placeholder="your name"
+                    onChange={(e) => setOwnerNameValue(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <input
+                    type="number"
+                    className="form-input rounded-md mb-4 w-64"
+                    placeholder="room number"
+                    onChange={(e) =>
+                      setOwnerRoomNumberValue(parseInt(e.target.value))
+                    }
+                  />
+                </div>
+                <div>
+                  <button
+                    className="bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition-all w-64 rounded-md"
+                    onClick={setOwner}
+                  >
+                    submit info
+                  </button>
+                </div>
               </>
             )}
           </div>
-          <p className="text-sm">
+          <p className="text-sm my-12">
             this thing is ugly. but it works. lol. - okezie
           </p>
         </div>
       ) : (
-        <>ummm.. something went wrong. try refreshing two or three times. if it still doesn't work, contact okezie</>
+        <>
+          ummm.. something went wrong. try refreshing two or three times. if it
+          still doesn&apos;t work, contact okezie
+        </>
       )}
     </div>
   );
