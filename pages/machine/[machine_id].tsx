@@ -43,7 +43,7 @@ export default function MachineStatus() {
       }
       setOwnerNameValue(null);
       setOwnerRoomNumberValue(null);
-      
+
       alert("successful. thank you for being a good new livite.");
       setForceDataRefresh(forceDataRefresh + 1);
     } catch (error) {
@@ -98,10 +98,10 @@ export default function MachineStatus() {
     <div>
       {machineStatus ? (
         <div>
-          <div className="text-3xl">New Livingstone</div>
-          <div className="text-2xl">Floor {machineStatus.floor}</div>
+          <div className="text-3xl">new livingstone</div>
+          <div className="text-2xl">floor {machineStatus.floor}</div>
           <div className="text-xl">
-            Floor {machineStatus.type} {machineStatus.number}
+            {machineStatus.type} {machineStatus.number}
           </div>
           <div>
             {machineStatus.owner_name ? (
@@ -114,7 +114,7 @@ export default function MachineStatus() {
                   onClick={resetOwner}
                   className="bg-red-600 text-white px-4 py-4"
                 >
-                  Clear Owner Data
+                  clear owner data
                 </button>
               </>
             ) : (
@@ -122,13 +122,13 @@ export default function MachineStatus() {
                 <input
                   type="text"
                   className="form-input"
-                  placeholder="Your name"
+                  placeholder="your name"
                   onChange={(e) => setOwnerNameValue(e.target.value)}
                 />
                 <input
                   type="number"
                   className="form-input"
-                  placeholder="Room Number"
+                  placeholder="room number"
                   onChange={(e) => setOwnerRoomNumberValue(e.target.value)}
                 />
                 <button
@@ -140,6 +140,9 @@ export default function MachineStatus() {
               </>
             )}
           </div>
+          <p className="text-sm">
+            this thing is ugly. but it works. lol. - okezie
+          </p>
         </div>
       ) : (
         <>ummm.. something went wrong. contact okezie</>
