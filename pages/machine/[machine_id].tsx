@@ -135,7 +135,7 @@ export default function MachineStatus() {
                     <div>
                       <input
                         type="text"
-                        className="form-input rounded-md mb-4 w-64"
+                        className="form-input rounded-md mb-4 w-64 dark:text-black"
                         placeholder="your name"
                         onChange={(e) => setOwnerNameValue(e.target.value)}
                       />
@@ -143,7 +143,7 @@ export default function MachineStatus() {
                     <div>
                       <input
                         type="number"
-                        className="form-input rounded-md mb-4 w-64"
+                        className="form-input rounded-md mb-4 w-64 dark:text-black"
                         placeholder="room number"
                         onChange={(e) =>
                           setOwnerRoomNumberValue(parseInt(e.target.value))
